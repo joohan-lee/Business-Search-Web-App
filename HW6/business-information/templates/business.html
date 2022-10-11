@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Business Search</title>
+    <link rel = "stylesheet" href = "../static/css/business.css">
+    <script src="../static/js/business.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+    <div id = "search_container">
+        <div id = "search_banner">
+            <p style = "font-size: 25px;font-weight:bold;">Business Search</p>
+            <p style = "font-size: 20px;font-weight:normal;">Fill out the form to get business near you!</p>
+        </div>
+        <div id = "search_form_container">
+            <form action = "" method = "GET" id="search_frm" onsubmit="submit_search_form(event)">
+                <div id = "search_keyword">
+                    <div class="search_title required_title">Keyword</div>
+                    <input type = "text" name = "keyword" id = "input_keyword" required>
+                </div>
+                <div id="search_d_c">
+                    <div id = "search_distance">
+                        <div class="search_title">Distance(miles)</div>
+                        <input type = "number" name="distance" value="10" min="1" max="25" id="input_distance" required>
+                    </div>
+                    <div id = "search_category">
+                        <div class="search_title required_title">Category</div>
+                        <select name="category" id="select_category">
+                            <option value="Default">Default</option>
+                            <option value="Arts & Entertainment">Arts & Entertainment</option>
+                            <option value="Health & Medical">Health & Medical</option>
+                            <option value="Hotels & Travel">Hotels & Travel</option>
+                            <option value="Food">Food</option>
+                            <option value="Professional Services">Professional Services</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="search_location">
+                    <div class="search_title required_title">Location</div>
+                    <input type = "text" name = "location" id = "input_location" required>
+                </div>
+
+                <hr color = "#819ccd" width="500px" size="1" style="margin-top:25px; margin-bottom: 20px;">
+
+                <span style = "color: #4169e1;font-size: 18px;">Want us to auto-detect your location? Check here
+                <input type="checkbox" name="chk_auto_detect" id="chk_box" class="chk_auto" onclick='location_chkbox_click(this)'></span>
+
+
+                <div id="buttons">
+                    <button type="submit" id="submit_button">SUBMIT</button>
+                    <button type="button" id="clear_button" onclick="clear_all();">CLEAR</button>
+
+
+                </div>
+            </form>
+
+        </div>
+
+
+    </div>
+    <div id = "search_result_container">
+
+    </div>
+
+    <div id = "detail_container">
+        <div id="detail_card">
+            <h2 style="text-align:center" id="detail_name">business name</h2>
+            <hr width="750px" color='#cccccc' size="0.5" style="margin-bottom:50px;">
+            <div class = "detail_row">
+                <div class="detail_column">
+                    <div class="detail_title" id="detail_title_status" style="margin-bottom:7px;">Status</div>
+                    <span id="detail_status"></span>
+                </div>
+                <div class="detail_column">
+                    <div class="detail_title" id="detail_title_category">Category</div>
+                    <span id="detail_category"></span>
+                </div>
+            </div>
+            <div class = "detail_row">
+                <div class="detail_column">
+                    <div class="detail_title" id="detail_title_address">Address</div>
+                    <span id="detail_address"></span>
+                </div>
+                <div class="detail_column">
+                    <div class="detail_title" id="detail_title_phone">Phone Number</div>
+                    <span id="detail_phone"></span>
+                </div>
+            </div>
+            <div class = "detail_row">
+                <div class="detail_column">
+                    <div class="detail_title" id="detail_title_transaction">Transactions Supported</div>
+                    <span id="detail_transaction"></span>
+                </div>
+                <div class="detail_column">
+                    <div class="detail_title" id="detail_title_price">Price</div>
+                    <span id="detail_price"></span>
+                </div>
+            </div>
+            <div class = "detail_row">
+                <div class="detail_column">
+                    <div class="detail_title">More info</div>
+                    <span><a href="" id="detail_link" target="_blank">Yelp</a></span>
+                </div>
+            </div>
+            <div class="detail_photo_row">
+                <div class="detail_photo_col">
+                    <div class="photo"><img src="" id="detail_photo1" onload="resize(this)"></div>
+                    <div class="photo_text">Photo1</div>
+                </div>
+                <div class="detail_photo_col">
+                    <div class="photo"><img src="" id="detail_photo2" onload="resize(this)"></div>
+                    <div class="photo_text">Photo2</div>
+                </div>
+                <div class="detail_photo_col">
+                    <div class="photo"><img src="" id="detail_photo3" onload="resize(this)"></div>
+                    <div class="photo_text">Photo3</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
