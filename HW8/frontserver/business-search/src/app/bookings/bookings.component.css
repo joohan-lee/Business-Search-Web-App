@@ -1,0 +1,20 @@
+table{
+    background-color: white;
+    text-align: center;
+    margin-bottom: 10px;
+    border-collapse:collapse;
+    border-radius: 20px;
+}
+
+#no_result{
+    background-color: white;
+    border-radius: 15px;
+    color:red;
+    font-size:18px;
+    font-weight: bold;
+}
+
+.trash_button{
+    background: none;
+    border: none;
+}

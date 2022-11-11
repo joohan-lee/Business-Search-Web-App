@@ -1,0 +1,10 @@
+nav a{
+    color:black;
+    background: none;
+    border-radius: 10px;
+}
+/* nav a:active, nav a:focus { border: 2px solid black; box-shadow: none; } */
+
+.active-link{
+    border: 2px solid black; box-shadow: none;
+}

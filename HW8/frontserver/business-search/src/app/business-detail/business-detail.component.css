@@ -1,0 +1,12 @@
+.detail_title{
+    font-weight:bold;
+    font-size:20px;
+    text-align: center;
+}
+
+@media screen{
+    .carousel-item img{
+        width: 250px;
+        height: 250px;
+    }
+}

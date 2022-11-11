@@ -1,0 +1,133 @@
+<div *ngIf="!isDetail && searchService.businesses" class="col-sm-10 mt-5 mb-5 mx-auto">
+    <div *ngIf="searchService.businesses.length == 0">
+        <p class="text-center col-sm-4 mx-auto mt-3" id = "no_result">No results available</p>
+    </div>
+
+    <div *ngIf="searchService.businesses.length > 0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scople = "col">#</th>
+                    <th scople = "col">Image</th>
+                    <th scople = "col">Business Name</th>
+                    <th scople = "col">Rating</th>
+                    <th scople = "col">Distance (miles)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let business of searchService.businesses; index as i" (click)="showDetail(business)" style="cursor: pointer;">
+                    <th scope="row">{{i+1}}</th>
+                    <td><img [src]= "business.image_url" id="preview_img" alt="img" ></td>
+                    <td><span class="business_name">{{business.name}}</span></td>
+                    <td>{{business.rating}}</td>
+                    <td>{{(business.distance*0.000621371).toFixed(2)}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div *ngIf="isDetail" class="col-sm-10 mt-5 mb-5 mx-auto" id="detail_container">
+    <div class="col-12"><button (click)="backToList()" id ="backButton">&larr;</button></div> 
+    <h3 class="text-center mx-auto">{{selectedBusinessName}}</h3>
+
+    <mat-tab-group *ngIf="isDetail" mat-align-tabs="center" class="mb-5" (selectedTabChange)="mapClick($event)">
+        <mat-tab label="Business Details">
+            <app-business-detail [detailedInfo]="detailedInfo" [displayData]="displayData"></app-business-detail>
+        </mat-tab>
+        <mat-tab label="Map Location">
+            <div class="my-google-map">
+                <!-- google-map renders map-container after css loading.
+                so, binding of width is required and I make sure to give the value in string type.-->
+                <google-map [width]="'100%'" [options]="mapOptions">
+                    <map-marker [position]="marker.position"></map-marker>
+                </google-map>
+            </div>
+        </mat-tab>
+        <mat-tab label="Reviews">
+            <app-review-detail [reviewArray]="reviewArray"></app-review-detail>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius:15px">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Reservation form</h5>
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <h6>{{selectedBusinessName}}</h6>
+            </div>
+            <form #reserveForm="ngForm" class="needs-validation">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" class="form-control" pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9-]+.[a-zA-Z0-9]+$" 
+                        required [(ngModel)]="reservation.email" #email="ngModel"  />
+                    <div *ngIf="email.invalid && was_validated">
+                        <div *ngIf="email.errors?.['required']" class="invalid-feedback d-block">
+                            Email is required
+                        </div>
+                        <div *ngIf="email.errors?.['pattern']" class="invalid-feedback d-block">
+                            Email must be a valid email address
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <div class="md-form md-outline input-with-post-icon datepicker">
+                        <input placeholder="mm/dd/yyyy" type="date" id="date" name="date" class="form-control" required [min]="today_yyyy_mm_dd" 
+                            onkeydown="return false" [(ngModel)]="reservation.date" #date="ngModel">
+                    </div>
+                    <div *ngIf="date.invalid && was_validated">
+                        <div *ngIf="date.errors?.['required']" class="invalid-feedback d-block">
+                            Date is required
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="time">Time</label>
+                    <div class="col-3">
+                        <select class="form-control time" id="hour" name="hour" required [(ngModel)]="reservation.time_hour">
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                        </select>
+                    </div>
+                    :
+                    <div class="col-3">
+                        <select class="form-control time" id="minute" name="minute" required [(ngModel)]="reservation.time_minute">
+                            <option value="00">00</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                        </select>
+                    </div>
+                    <div class="col-1" style="margin-left:0%;padding-left:0%;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" style="margin-top:40%;margin-left:0%;" viewBox="0 0 16 16">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                
+
+                <div class="mx-auto text-center mt-2">
+                    <button type="submit" class="btn btn-danger mx-auto" (click)="reserveSubmit()">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark" id="modal_close_btn" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+

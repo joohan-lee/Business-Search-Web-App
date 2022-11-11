@@ -1,0 +1,60 @@
+<div id = "search_container" class="col-md-8 mx-auto mt-5">
+    <div id = "search_banner" class="m-2 m-sm-4">
+        <span style = "font-size: 23px;font-weight:bold;" class="justify-content-center">Business Search</span>
+    </div>
+    <form class="row g-3 m-3" (ngSubmit)="onSubmit()" #searchForm ="ngForm" method = "GET" id="search_frm" ngNativeValidate>
+        <div class="col-12">
+            <label for="inputKeyword" class="required_label">Keyword</label>
+            <input type = "text" class="form-control" [matAutocomplete]="auto" [formControl]="searchKeywordCtrl" name = "keyword"  required>
+            
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngIf="isLoading" class="is-loading">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden"></span>
+                    </div>
+                </mat-option>
+                <ng-container *ngIf="!isLoading">
+                    <mat-option *ngFor="let option of filteredKeywords" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </ng-container>
+            </mat-autocomplete>
+        </div>
+        <div class="col-sm-6">
+            <label for="inputDistance">Distance</label>
+            <input type = "number" [(ngModel)]="distance" #distanceInput="ngModel" name="distance" placeholder="10" min="1" max="25" class ="form-control">
+        </div>
+        <div class="col-sm-5">
+            <label for="inputCategory" class="required_label">Category</label>
+            <select name="category" class="form-control" [(ngModel)]="category" required>
+                <option value="Default">Default</option>
+                <option value="Arts & Entertainment">Arts & Entertainment</option>
+                <option value="Health & Medical">Health & Medical</option>
+                <option value="Hotels & Travel">Hotels & Travel</option>
+                <option value="Food">Food</option>
+                <option value="Professional Services">Professional Services</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <label for="inputLocation" class="required_label">Location</label>
+            <input type = "text" [(ngModel)]="location" name = "location" id = "input_location" class="form-control"  [disabled]="isChecked"  required>
+        </div>
+
+        <div class="col-12">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="chk_auto_detect" [(ngModel)]="isChecked" (click)='location_chkbox_click($event);'>
+                <label class="form-check-label" for="chkbox">Auto-detect my location</label>
+            </div>
+        </div>
+
+
+        <div class="col-12 d-flex justify-content-center mt-3 mb-3">
+            <div class ="px-2"><button type="submit" class="btn btn-danger" (click)="cleanPreviousSearch()">Submit</button></div>
+            <div class ="px-2"><button type="button" class="btn btn-primary" (click)="clearForm();">Clear</button></div>
+        </div>
+    </form>
+
+</div>
+
+
+<app-businesslist *ngIf="isSubmitted" [isSubmitted]="isSubmitted" class="m-1"></app-businesslist>

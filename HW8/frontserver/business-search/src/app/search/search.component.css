@@ -1,0 +1,18 @@
+#search_container{
+    border: 1px solid #c0c0c0;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+#search_banner{
+    text-align: center;
+}
+
+.required_label:after{
+    content: "*";
+    color: red;
+}
+
+select{
+    color: black;
+}

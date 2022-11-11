@@ -1,0 +1,10 @@
+<table class="table table-striped m-0 p-0">
+    <tbody>
+        <tr *ngFor="let review of reviewArray">
+            <div><b>{{review.user.name}}</b><br>
+            Rating: {{review.rating}}/5<br><br>
+            {{review.text}}<br><br>
+            {{review.time_created.split(' ')[0]}}</div>
+        </tr>
+    </tbody>
+</table>
