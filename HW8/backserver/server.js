@@ -56,7 +56,7 @@ app.get('/autocomplete/:text', function (req, res) {
  */
 app.get('/geocoding/:location', function(req, res){
   var location = req.params.location;
-  var token = "AIzaSyAOZ1xg2inm8cctEtGz4EqzSEYCA6a8mBE";
+  var token = ""; // fill your google api key here
   var geocoding_url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ location + '&key=' + token;
   geocoding_url = geocoding_url.replace(" ", "+");
 
